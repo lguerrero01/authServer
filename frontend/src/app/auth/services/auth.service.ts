@@ -33,12 +33,12 @@ export class AuthService {
 
   public registro(name: string, email: string, password: string) {
     const url = `${this.baseUrl}/auth/new`;
-    const body = { name, email, password };
+    const body = { name, email, password }; 
 
     return this.http.post<AuthResponse>(url, body).pipe(
-      tap((resp) => {
-        if (resp.ok) {
-          localStorage.setItem('token', resp.token!);
+      tap(({ok , token}) => {
+        if (ok) {
+          localStorage.setItem('token', token!);
         }
       }),
       map((resp) => resp.ok),
@@ -59,7 +59,7 @@ export class AuthService {
         this._usuario = {
           name: resp.name!,
           uid: resp.uid!,
-          email: resp.email!,
+          email: resp.email!
         };
 
         return resp.ok;
